@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 var donationSchema = {
-  foodName: String,
+  name: String,
   type: String,
-  userId: Number,
-  donationId: Number
+  donorId: String,
+  recipientId: String
 }
 
-const donation = mongoose.model('donation', donationSchema);
+const Donation = mongoose.model('Donation', donationSchema);
 
 module.exports = Donation;

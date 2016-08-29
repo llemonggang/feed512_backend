@@ -4,11 +4,11 @@ var profileSchema = {
   fullName: String,
   businessType: String,
   address: String,
-  phone: Number,
+  phone: String,
   email: String,
-  userId: Number
+  userId: String
 }
 
-const Profile = mongoose.model('Profile', userSchema);
+const Profile = mongoose.model('Profile', profileSchema);
 
 module.exports = Profile;
