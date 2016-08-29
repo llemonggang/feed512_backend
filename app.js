@@ -30,8 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/donations', donations);
-app.use('/profiles', profiles);
+app.use('/donations', donation);
+app.use('/profiles', profile);
 
 
 // catch 404 and forward to error handler
