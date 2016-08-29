@@ -1,7 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var Profile = require('../models/profile');
+var _ = require('lodash');
 
+router.use((req, res, next) => {
+  req.body = _.pick(req.body, ['fullName', 'businessType', 'address', 'phone', 'email'])
+  next()
+})
 /* GET users */
 router.get('/', (req, res, next) => {
   Profile.find({}, (err, users) => {
@@ -14,7 +19,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  const profile = new Profile(req.body.task)
+  const profile = new Profile(req.body)
   profile.save((err) => {
     if (err) {
       res.status(500).send(err);

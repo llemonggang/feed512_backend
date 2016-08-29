@@ -1,7 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var Donation = require('../models/doatation');
+var Donation = require('../models/donation');
+var _ = require('lodash');
 
+router.use((req, res, next) => {
+  req.body = _.pick(req.body, ['name', 'type', 'recipientId'])
+  next()
+})
 /* GET users */
 router.get('/', (req, res, next) => {
   Donation.find({}, (err, users) => {
@@ -14,7 +19,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  const donation = new Donation(req.body.task)
+  const donation = new Donation(req.body)
   //req.body.task will have to change
   donation.save((err) => {
     if (err) {
