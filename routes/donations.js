@@ -9,11 +9,11 @@ router.use((req, res, next) => {
 })
 /* GET users */
 router.get('/', (req, res, next) => {
-  Donation.find({}, (err, users) => {
+  Donation.find({}, (err, donation) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      res.json(donations);
+      res.json(donation);
     }
   })
 });
