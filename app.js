@@ -10,8 +10,8 @@ mongoose.connect(process.env.DB_CONNECTION)
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var feeds = require('./routes/feeds');
-
+var donation = require('./routes/donation');
+var profile = require('./routes/profile');
 
 
 var app = express();
@@ -30,8 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/feeds', feeds);
-
+app.use('/donation', donation);
+app.use('/profile', profile);
 
 
 // catch 404 and forward to error handler
