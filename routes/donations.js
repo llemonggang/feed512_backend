@@ -18,6 +18,21 @@ router.get('/', (req, res, next) => {
   })
 });
 
+router.get('/claimed', (req, res, next) => {
+  res.json([{
+    type: 'Canned FOod',
+    donorId: '1',
+    recipientId: '2'
+  }])
+  // Donation.find({}, (err, donation) => {
+  //   if (err) {
+  //     res.status(500).send(err);
+  //   } else {
+  //     res.json(donation);
+  //   }
+  // })
+});
+
 router.post('/', (req, res, next) => {
   const donation = new Donation(req.body)
   //req.body.task will have to change
