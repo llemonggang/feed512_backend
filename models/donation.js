@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 var donationSchema = {
-  name: String,
   type: String,
   donorId: String,
   recipientId: String
