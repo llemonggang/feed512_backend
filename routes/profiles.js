@@ -30,17 +30,25 @@ router.post('/', (req, res, next) => {
   })
 })
 router.get('/:profileId', (req, res, next) => {
-Profile.findById(req.params.profileId, (err, profile) => {
-  if (err) {
-    res.status(500).send(err);
-  } else {
-      if (profile) {
-        res.json(profile);
-      } else {
-          res.status(404).send()
-      }
-    }
+  res.json({
+    fullName: 'Jeanetee',
+    businessType: 'String',
+    address: 'String',
+    phone: 'String',
+    email: 'String',
+    userId: 'String'
   })
+// Profile.findById(req.params.profileId, (err, profile) => {
+//   if (err) {
+//     res.status(500).send(err);
+//   } else {
+//       if (profile) {
+//         res.json(profile);
+//       } else {
+//           res.status(404).send()
+//       }
+//     }
+//   })
 })
 router.put('/:profileId', (req, res, next) => {
   Profile.findByIdAndUpdate(req.params.profileId, {
