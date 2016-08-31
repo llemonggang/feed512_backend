@@ -57,15 +57,18 @@ router.get('/available', (req, res, next) => {
 });
 
 router.put('/updated', (req, res, next) => {
-  Donation.findByIdAndUpdate(req.params.recipientId, {
-    $set: req.body }, (err, donation) => {
+  var donationId  = req.body.donationId;
+  var recipientId = req.body.recipientId;
+
+  Donation.findByIdAndUpdate(donationId, {
+    $set: {
+      recipientId: recipientId
+ } }, (err, donation) => {
     if (err) {
       res.status(500).send()
     } else {
       if (donation) {
-        Donation.findById(req.params.donationsId, (err, updatedDonation) => {
-          res.json(updatedDonation)
-        })
+        res.json(donation);
       } else {
         res.status(404).send()
       }
@@ -103,7 +106,7 @@ router.put('/:donationId', (req, res, next) => {
   })
 })
 router.delete('/:donationId', (req, res, next) => {
-  Donation.findById(req.params.feedId).remove((err) => {
+  Donation.findById(req.params.donationId).remove((err) => {
     if (err) {
       res.status(500).send()
     } else {
