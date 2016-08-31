@@ -6,7 +6,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+var jwt = require('express-jwt');
+
+var jwtCheck = jwt({
+  secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
+  audience: process.env.AUTH0_CLIENT_ID
+});
 mongoose.connect(process.env.DB_CONNECTION)
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -30,8 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/donations', donation);
-app.use('/profiles', profile);
+app.use('/donations', jwtCheck, donation);
+app.use('/profiles', jwtCheck, profile);
 
 
 // catch 404 and forward to error handler
