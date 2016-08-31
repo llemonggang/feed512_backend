@@ -28,7 +28,6 @@ router.post('/', (req, res, next) => {
     } else {
       res.json(donation);
     }
-
   })
 })
 
@@ -59,26 +58,6 @@ router.get('/available', (req, res, next) => {
     })
 });
 
-router.put('/updated', (req, res, next) => {
-  var donationId  = req.body.donationId;
-  var recipientId = req.body.recipientId;
-
-  Donation.findByIdAndUpdate(donationId, {
-    $set: {
-      recipientId: recipientId
- } }, (err, donation) => {
-    if (err) {
-      res.status(500).send()
-    } else {
-      if (donation) {
-        res.json(donation);
-      } else {
-        res.status(404).send()
-      }
-    }
-  })
-})
-
 router.get('/:donationId', (req, res, next) => {
   Donation.findById(req.params.userId, (err, donation) => {
     if (err) {
@@ -92,6 +71,7 @@ router.get('/:donationId', (req, res, next) => {
     }
   })
 })
+
 router.put('/:donationId', (req, res, next) => {
   Donation.findByIdAndUpdate(req.params.donationId, {
     $set: req.body }, (err, donation) => {
@@ -108,6 +88,30 @@ router.put('/:donationId', (req, res, next) => {
     }
   })
 })
+
+router.put('/:donationId/claim', (req, res, next) => {
+  Donation.findOne({
+    recipientId: {$exists: false}
+  },function (error, donation) {
+      if (error) {
+        res.status(500).send()
+      } else {
+        if (donation) {
+            donation.recipientId = req.user.sub
+            donation.save((err) => {
+              if (err) {
+                res.status(500).send(err);
+              } else {
+                res.json(donation);
+              }
+            })
+        } else {
+          res.status(404).send()
+        }
+      }
+  })
+})
+
 router.delete('/:donationId', (req, res, next) => {
   Donation.findById(req.params.donationId).remove((err) => {
     if (err) {
