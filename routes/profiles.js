@@ -7,7 +7,7 @@ router.use((req, res, next) => {
   req.body = _.pick(req.body, ['fullName', 'businessType', 'address', 'phone', 'email'])
   next()
 })
-/* GET users */
+
 router.get('/', (req, res, next) => {
   Profile.find({}, (err, users) => {
     if (err) {
@@ -18,8 +18,19 @@ router.get('/', (req, res, next) => {
   })
 });
 
+router.get('/me', (req, res, next) => {
+  Profile.findOne({userId: req.user.sub}, (err, profile) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.json(profile);
+    }
+  })
+});
+
 router.post('/', (req, res, next) => {
   const profile = new Profile(req.body)
+  profile.userId = req.user.sub
   profile.save((err) => {
     if (err) {
       res.status(500).send(err);
