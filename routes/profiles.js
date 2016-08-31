@@ -20,6 +20,7 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const profile = new Profile(req.body)
+  profile.userId = req.user.sub
   profile.save((err) => {
     if (err) {
       res.status(500).send(err);
