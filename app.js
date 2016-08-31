@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 var jwt = require('express-jwt');
+const cors = require('cors');
 
 var jwtCheck = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
@@ -34,6 +35,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors())
 
 app.use('/', routes);
 app.use('/users', users);
