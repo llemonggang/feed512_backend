@@ -33,7 +33,10 @@ router.post('/', (req, res, next) => {
 })
 
 router.get('/claimed', (req, res, next) => {
-  Donation.find({ recipientId: { $ne: null} }, (err, donation) => {
+  Donation.find({
+    recipientId: { $ne: null },
+    userId: req.user.sub
+  }, (err, donation) => {
     if (err) {
       res.status(500).send(err);
     } else {
