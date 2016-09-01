@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const donation = new Donation(req.body)
-  //req.body.task will have to change
+  donation.donorId = req.user.sub
   donation.save((err) => {
     if (err) {
       res.status(500).send(err);
@@ -34,7 +34,7 @@ router.post('/', (req, res, next) => {
 router.get('/claimed', (req, res, next) => {
   Donation.find({
     recipientId: { $ne: null },
-    userId: req.user.sub
+    donorId: req.user.sub
   }, (err, donation) => {
     if (err) {
       res.status(500).send(err);

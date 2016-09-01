@@ -8,15 +8,15 @@ router.use((req, res, next) => {
   next()
 })
 
-router.get('/', (req, res, next) => {
-  Profile.find({}, (err, users) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.json(profiles);
-    }
-  })
-});
+// router.get('/', (req, res, next) => {
+//   Profile.find({}, (err, users) => {
+//     if (err) {
+//       res.status(500).send(err);
+//     } else {
+//       res.json(profiles);
+//     }
+//   })
+// });
 
 router.get('/me', (req, res, next) => {
   Profile.findOne({userId: req.user.sub}, (err, profile) => {
@@ -40,51 +40,45 @@ router.post('/', (req, res, next) => {
 
   })
 })
-router.get('/:profileId', (req, res, next) => {
-  res.json({
-    fullName: 'Jeanetee',
-    businessType: 'String',
-    address: 'String',
-    phone: 'String',
-    email: 'String',
-    userId: 'String'
-  })
-// Profile.findById(req.params.profileId, (err, profile) => {
-//   if (err) {
-//     res.status(500).send(err);
-//   } else {
-//       if (profile) {
-//         res.json(profile);
-//       } else {
-//           res.status(404).send()
-//       }
-//     }
-//   })
-})
-router.put('/:profileId', (req, res, next) => {
-  Profile.findByIdAndUpdate(req.params.profileId, {
-    $set: req.body }, (err, profile) => {
-    if (err) {
-      res.status(500).send()
-    } else {
-      if (todo) {
-        Profile.findById(req.params.profileId, (err, updatedProfile) => {
-          res.json(updatedProfile)
-        })
-      } else {
-        res.status(404).send()
-      }
-    }
-  })
-})
-router.delete('/:profileId', (req, res, next) => {
-  Profile.findById(req.params.profileId).remove((err) => {
+router.get('/:userId', (req, res, next) => {
+
+  Profile.findOne({userId: req.params.userId}, (err, profile) => {
     if (err) {
-      res.status(500).send()
+      res.status(500).send(err);
     } else {
-      res.status(204).send()
+      if (profile) {
+        res.json(profile);
+      } else {
+          res.status(404).send()
+      }
     }
   })
-});
+})
+
+// router.put('/:profileId', (req, res, next) => {
+//   Profile.findByIdAndUpdate(req.params.profileId, {
+//     $set: req.body }, (err, profile) => {
+//     if (err) {
+//       res.status(500).send()
+//     } else {
+//       if (todo) {
+//         Profile.findById(req.params.profileId, (err, updatedProfile) => {
+//           res.json(updatedProfile)
+//         })
+//       } else {
+//         res.status(404).send()
+//       }
+//     }
+//   })
+// })
+// router.delete('/:profileId', (req, res, next) => {
+//   Profile.findById(req.params.profileId).remove((err) => {
+//     if (err) {
+//       res.status(500).send()
+//     } else {
+//       res.status(204).send()
+//     }
+//   })
+// });
 
 module.exports = router;
