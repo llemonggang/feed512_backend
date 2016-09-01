@@ -45,7 +45,7 @@ router.get('/claimed', (req, res, next) => {
 });
 
 router.get('/available', (req, res, next) => {
-  Donation.find({ recipientId: { $exists: true} }, (err, donation) => {
+  Donation.find({ recipientId: { $exists: false} }, (err, donation) => {
     if (err) {
       res.status(500).send(err);
     } else {
